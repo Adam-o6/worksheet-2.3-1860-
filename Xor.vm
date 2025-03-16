@@ -1,0 +1,29 @@
+// Load x (argument[0]) onto the stack
+push argument 0
+
+// Load y (argument[1]) onto the stack
+push argument 1
+
+// Compute x OR y (x | y)
+or
+
+// Load x (argument[0]) onto the stack again
+push argument 0
+
+// Load y (argument[1]) onto the stack again
+push argument 1
+
+// Compute x AND y (x & y)
+and
+
+// Negate x AND y using NOT (to get ~(x & y))
+not
+
+// Compute XOR using (x | y) & ~(x & y)
+and
+
+// Store the result in argument[2]
+pop argument 2
+
+// Leave result at the bottom of the stack
+push argument 2

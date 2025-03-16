@@ -1,0 +1,60 @@
+// AbsoluteValue.vm
+// Computes z = |x| where x is stored in argument[0]
+// Stores result in argument[1]
+// Sets argument[2] to 1 if x is negative, otherwise 0
+// Sets argument[3] to 1 if absolute value cannot be computed, otherwise 0
+
+// Step 1: Load x onto stack
+push argument 0
+
+// Step 2: Check if x is negative
+push argument 0
+push constant 0
+lt
+if-goto NEGATIVE_CASE
+
+// x is non-negative (x >= 0), store argument[2] = 0
+push constant 0
+pop argument 2
+
+// Store x as absolute value (since it's already positive)
+push argument 0
+pop argument 1
+
+// Absolute value is computable, so argument[3] = 0
+push constant 0
+pop argument 3
+goto END
+
+label NEGATIVE_CASE
+// If x < 0, set argument[2] = 1
+push constant 1
+pop argument 2
+
+// Step 3: Check for overflow case (-32768)
+push argument 0
+push constant 32767
+eq
+if-goto OVERFLOW
+
+// Step 4: Compute |x| (negate x)
+push argument 0
+neg
+pop argument 1
+
+// Absolute value is computable, so argument[3] = 0
+push constant 0
+pop argument 3
+goto END
+
+label OVERFLOW
+// If x == -32768, set argument[3] = 1 (error flag)
+push constant 1
+pop argument 3
+
+// Store -32767 in argument[1] since |x| is not representable
+push argument 0
+pop argument 1
+
+label END
+// End of program

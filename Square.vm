@@ -1,0 +1,42 @@
+// Square.vm
+// Computes y = x^2 using repeated addition, ensuring x is positive
+
+push argument 0      // Load x
+push constant 0      // Push 0 to compare with x
+lt                  // Check if x < 0
+if-goto NEGATIVE    // If x is negative, go to NEGATIVE
+push argument 0 
+pop argument 1
+goto CONTINUE       // Otherwise, continue normally
+
+label NEGATIVE
+    push argument 0  // Load x
+    neg             // Convert to positive (-x)
+    pop argument 1  // Store back in argument[0]
+
+label CONTINUE
+push constant 0      // Initialize sum (y = 0)
+pop temp 0          // Store y in temp 0
+
+push argument 1      // Load x (loop counter)
+pop temp 1          // Store loop counter in temp 1
+label LOOP
+    push temp 1      // Load counter
+    push constant 0  // Compare with 0
+    eq               // If counter == 0, stop looping
+    if-goto END      // Jump to END if counter is 0
+
+    push temp 0      // Load sum (y)
+    push argument 1  // Load x
+    add              // y = y + x
+    pop temp 0       // Store new sum in temp 0
+
+    push temp 1      // Load counter
+    push constant 1  // Decrement counter
+    sub
+    pop temp 1       // Store updated counter
+
+    goto LOOP        // Repeat loop
+
+label END
+push temp 0          // Push final result (y) onto the stack
